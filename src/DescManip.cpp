@@ -165,6 +165,8 @@ void DescManip::fromString(cv::Mat &a, const std::string &s)
 {
 
     //check if the dbow3 is present
+
+    std::cout<<"begin fromstring..."<<std::endl;
     string ss_aux;ss_aux.reserve(10);
     for(size_t i=0;i<10 && i<s.size();i++)
         ss_aux.push_back(s[i]);

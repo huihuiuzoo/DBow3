@@ -1,0 +1,322 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+   <FileVersion major="1" minor="6" />
+   <Project>
+      <Option title="DBoW3" />
+      <Option makefile_is_custom="1" />
+      <Option compiler="gcc" />
+      <Option virtualFolders="CMake Files\;CMake Files\..\;CMake Files\..\..\;CMake Files\..\..\..\;CMake Files\..\..\..\..\;CMake Files\..\..\..\..\..\;CMake Files\..\..\..\..\..\usr\;CMake Files\..\..\..\..\..\usr\local\;CMake Files\..\..\..\..\..\usr\local\share\;CMake Files\..\..\..\..\..\usr\local\share\OpenCV\;CMake Files\src\;CMake Files\utils\;" />
+      <Build>
+      <Target title="all">
+         <Option working_dir="/home/hui/study/bow4book/DBow3/utils" />
+         <Option type="4" />
+         <MakeCommands>
+            <Build command="/usr/bin/make -f &quot;/home/hui/study/bow4book/DBow3/utils/Makefile&quot;  VERBOSE=1 all" />
+            <CompileFile command="/usr/bin/make -f &quot;/home/hui/study/bow4book/DBow3/utils/Makefile&quot;  VERBOSE=1 &quot;$file&quot;" />
+            <Clean command="/usr/bin/make -f &quot;/home/hui/study/bow4book/DBow3/utils/Makefile&quot;  VERBOSE=1 clean" />
+            <DistClean command="/usr/bin/make -f &quot;/home/hui/study/bow4book/DBow3/utils/Makefile&quot;  VERBOSE=1 clean" />
+         </MakeCommands>
+      </Target>
+      <Target title="install/strip">
+         <Option working_dir="/home/hui/study/bow4book/DBow3/utils" />
+         <Option type="4" />
+         <MakeCommands>
+            <Build command="/usr/bin/make -f &quot;/home/hui/study/bow4book/DBow3/utils/Makefile&quot;  VERBOSE=1 install/strip" />
+            <CompileFile command="/usr/bin/make -f &quot;/home/hui/study/bow4book/DBow3/utils/Makefile&quot;  VERBOSE=1 &quot;$file&quot;" />
+            <Clean command="/usr/bin/make -f &quot;/home/hui/study/bow4book/DBow3/utils/Makefile&quot;  VERBOSE=1 clean" />
+            <DistClean command="/usr/bin/make -f &quot;/home/hui/study/bow4book/DBow3/utils/Makefile&quot;  VERBOSE=1 clean" />
+         </MakeCommands>
+      </Target>
+      <Target title="uninstall">
+         <Option working_dir="/home/hui/study/bow4book/DBow3/utils" />
+         <Option type="4" />
+         <MakeCommands>
+            <Build command="/usr/bin/make -f &quot;/home/hui/study/bow4book/DBow3/utils/Makefile&quot;  VERBOSE=1 uninstall" />
+            <CompileFile command="/usr/bin/make -f &quot;/home/hui/study/bow4book/DBow3/utils/Makefile&quot;  VERBOSE=1 &quot;$file&quot;" />
+            <Clean command="/usr/bin/make -f &quot;/home/hui/study/bow4book/DBow3/utils/Makefile&quot;  VERBOSE=1 clean" />
+            <DistClean command="/usr/bin/make -f &quot;/home/hui/study/bow4book/DBow3/utils/Makefile&quot;  VERBOSE=1 clean" />
+         </MakeCommands>
+      </Target>
+      <Target title="edit_cache">
+         <Option working_dir="/home/hui/study/bow4book/DBow3/utils" />
+         <Option type="4" />
+         <MakeCommands>
+            <Build command="/usr/bin/make -f &quot;/home/hui/study/bow4book/DBow3/utils/Makefile&quot;  VERBOSE=1 edit_cache" />
+            <CompileFile command="/usr/bin/make -f &quot;/home/hui/study/bow4book/DBow3/utils/Makefile&quot;  VERBOSE=1 &quot;$file&quot;" />
+            <Clean command="/usr/bin/make -f &quot;/home/hui/study/bow4book/DBow3/utils/Makefile&quot;  VERBOSE=1 clean" />
+            <DistClean command="/usr/bin/make -f &quot;/home/hui/study/bow4book/DBow3/utils/Makefile&quot;  VERBOSE=1 clean" />
+         </MakeCommands>
+      </Target>
+      <Target title="rebuild_cache">
+         <Option working_dir="/home/hui/study/bow4book/DBow3/utils" />
+         <Option type="4" />
+         <MakeCommands>
+            <Build command="/usr/bin/make -f &quot;/home/hui/study/bow4book/DBow3/utils/Makefile&quot;  VERBOSE=1 rebuild_cache" />
+            <CompileFile command="/usr/bin/make -f &quot;/home/hui/study/bow4book/DBow3/utils/Makefile&quot;  VERBOSE=1 &quot;$file&quot;" />
+            <Clean command="/usr/bin/make -f &quot;/home/hui/study/bow4book/DBow3/utils/Makefile&quot;  VERBOSE=1 clean" />
+            <DistClean command="/usr/bin/make -f &quot;/home/hui/study/bow4book/DBow3/utils/Makefile&quot;  VERBOSE=1 clean" />
+         </MakeCommands>
+      </Target>
+      <Target title="install">
+         <Option working_dir="/home/hui/study/bow4book/DBow3/utils" />
+         <Option type="4" />
+         <MakeCommands>
+            <Build command="/usr/bin/make -f &quot;/home/hui/study/bow4book/DBow3/utils/Makefile&quot;  VERBOSE=1 install" />
+            <CompileFile command="/usr/bin/make -f &quot;/home/hui/study/bow4book/DBow3/utils/Makefile&quot;  VERBOSE=1 &quot;$file&quot;" />
+            <Clean command="/usr/bin/make -f &quot;/home/hui/study/bow4book/DBow3/utils/Makefile&quot;  VERBOSE=1 clean" />
+            <DistClean command="/usr/bin/make -f &quot;/home/hui/study/bow4book/DBow3/utils/Makefile&quot;  VERBOSE=1 clean" />
+         </MakeCommands>
+      </Target>
+      <Target title="list_install_components">
+         <Option working_dir="/home/hui/study/bow4book/DBow3/utils" />
+         <Option type="4" />
+         <MakeCommands>
+            <Build command="/usr/bin/make -f &quot;/home/hui/study/bow4book/DBow3/utils/Makefile&quot;  VERBOSE=1 list_install_components" />
+            <CompileFile command="/usr/bin/make -f &quot;/home/hui/study/bow4book/DBow3/utils/Makefile&quot;  VERBOSE=1 &quot;$file&quot;" />
+            <Clean command="/usr/bin/make -f &quot;/home/hui/study/bow4book/DBow3/utils/Makefile&quot;  VERBOSE=1 clean" />
+            <DistClean command="/usr/bin/make -f &quot;/home/hui/study/bow4book/DBow3/utils/Makefile&quot;  VERBOSE=1 clean" />
+         </MakeCommands>
+      </Target>
+      <Target title="install/local">
+         <Option working_dir="/home/hui/study/bow4book/DBow3/utils" />
+         <Option type="4" />
+         <MakeCommands>
+            <Build command="/usr/bin/make -f &quot;/home/hui/study/bow4book/DBow3/utils/Makefile&quot;  VERBOSE=1 install/local" />
+            <CompileFile command="/usr/bin/make -f &quot;/home/hui/study/bow4book/DBow3/utils/Makefile&quot;  VERBOSE=1 &quot;$file&quot;" />
+            <Clean command="/usr/bin/make -f &quot;/home/hui/study/bow4book/DBow3/utils/Makefile&quot;  VERBOSE=1 clean" />
+            <DistClean command="/usr/bin/make -f &quot;/home/hui/study/bow4book/DBow3/utils/Makefile&quot;  VERBOSE=1 clean" />
+         </MakeCommands>
+      </Target>
+      <Target title="DBoW3">
+         <Option output="/home/hui/study/bow4book/DBow3/utils/src/libDBoW3.so" prefix_auto="0" extension_auto="0" />
+         <Option working_dir="/home/hui/study/bow4book/DBow3/utils/src" />
+         <Option object_output="./" />
+         <Option type="3" />
+         <Option compiler="gcc" />
+         <Compiler>
+            <Add option="-DOPENCV_VERSION_3" />
+            <Add directory="/home/hui/study/bow4book/DBow3/src/." />
+            <Add directory="/home/hui/study/bow4book/DBow3/src/./utils" />
+            <Add directory="/home/hui/study/bow4book/DBow3/utils/src" />
+            <Add directory="/usr/local/include" />
+            <Add directory="/usr/local/include/opencv" />
+         </Compiler>
+         <MakeCommands>
+            <Build command="/usr/bin/make -f &quot;/home/hui/study/bow4book/DBow3/utils/src/Makefile&quot;  VERBOSE=1 DBoW3" />
+            <CompileFile command="/usr/bin/make -f &quot;/home/hui/study/bow4book/DBow3/utils/src/Makefile&quot;  VERBOSE=1 &quot;$file&quot;" />
+            <Clean command="/usr/bin/make -f &quot;/home/hui/study/bow4book/DBow3/utils/src/Makefile&quot;  VERBOSE=1 clean" />
+            <DistClean command="/usr/bin/make -f &quot;/home/hui/study/bow4book/DBow3/utils/src/Makefile&quot;  VERBOSE=1 clean" />
+         </MakeCommands>
+      </Target>
+      <Target title="DBoW3/fast">
+         <Option output="/home/hui/study/bow4book/DBow3/utils/src/libDBoW3.so" prefix_auto="0" extension_auto="0" />
+         <Option working_dir="/home/hui/study/bow4book/DBow3/utils/src" />
+         <Option object_output="./" />
+         <Option type="3" />
+         <Option compiler="gcc" />
+         <Compiler>
+            <Add option="-DOPENCV_VERSION_3" />
+            <Add directory="/home/hui/study/bow4book/DBow3/src/." />
+            <Add directory="/home/hui/study/bow4book/DBow3/src/./utils" />
+            <Add directory="/home/hui/study/bow4book/DBow3/utils/src" />
+            <Add directory="/usr/local/include" />
+            <Add directory="/usr/local/include/opencv" />
+         </Compiler>
+         <MakeCommands>
+            <Build command="/usr/bin/make -f &quot;/home/hui/study/bow4book/DBow3/utils/src/Makefile&quot;  VERBOSE=1 DBoW3/fast" />
+            <CompileFile command="/usr/bin/make -f &quot;/home/hui/study/bow4book/DBow3/utils/src/Makefile&quot;  VERBOSE=1 &quot;$file&quot;" />
+            <Clean command="/usr/bin/make -f &quot;/home/hui/study/bow4book/DBow3/utils/src/Makefile&quot;  VERBOSE=1 clean" />
+            <DistClean command="/usr/bin/make -f &quot;/home/hui/study/bow4book/DBow3/utils/src/Makefile&quot;  VERBOSE=1 clean" />
+         </MakeCommands>
+      </Target>
+      <Target title="demo_general">
+         <Option output="/home/hui/study/bow4book/DBow3/utils/utils/demo_general" prefix_auto="0" extension_auto="0" />
+         <Option working_dir="/home/hui/study/bow4book/DBow3/utils/utils" />
+         <Option object_output="./" />
+         <Option type="1" />
+         <Option compiler="gcc" />
+         <Compiler>
+            <Add option="-DOPENCV_VERSION_3" />
+            <Add directory="/home/hui/study/bow4book/DBow3/src" />
+            <Add directory="/usr/local/include" />
+            <Add directory="/usr/local/include/opencv" />
+         </Compiler>
+         <MakeCommands>
+            <Build command="/usr/bin/make -f &quot;/home/hui/study/bow4book/DBow3/utils/utils/Makefile&quot;  VERBOSE=1 demo_general" />
+            <CompileFile command="/usr/bin/make -f &quot;/home/hui/study/bow4book/DBow3/utils/utils/Makefile&quot;  VERBOSE=1 &quot;$file&quot;" />
+            <Clean command="/usr/bin/make -f &quot;/home/hui/study/bow4book/DBow3/utils/utils/Makefile&quot;  VERBOSE=1 clean" />
+            <DistClean command="/usr/bin/make -f &quot;/home/hui/study/bow4book/DBow3/utils/utils/Makefile&quot;  VERBOSE=1 clean" />
+         </MakeCommands>
+      </Target>
+      <Target title="demo_general/fast">
+         <Option output="/home/hui/study/bow4book/DBow3/utils/utils/demo_general" prefix_auto="0" extension_auto="0" />
+         <Option working_dir="/home/hui/study/bow4book/DBow3/utils/utils" />
+         <Option object_output="./" />
+         <Option type="1" />
+         <Option compiler="gcc" />
+         <Compiler>
+            <Add option="-DOPENCV_VERSION_3" />
+            <Add directory="/home/hui/study/bow4book/DBow3/src" />
+            <Add directory="/usr/local/include" />
+            <Add directory="/usr/local/include/opencv" />
+         </Compiler>
+         <MakeCommands>
+            <Build command="/usr/bin/make -f &quot;/home/hui/study/bow4book/DBow3/utils/utils/Makefile&quot;  VERBOSE=1 demo_general/fast" />
+            <CompileFile command="/usr/bin/make -f &quot;/home/hui/study/bow4book/DBow3/utils/utils/Makefile&quot;  VERBOSE=1 &quot;$file&quot;" />
+            <Clean command="/usr/bin/make -f &quot;/home/hui/study/bow4book/DBow3/utils/utils/Makefile&quot;  VERBOSE=1 clean" />
+            <DistClean command="/usr/bin/make -f &quot;/home/hui/study/bow4book/DBow3/utils/utils/Makefile&quot;  VERBOSE=1 clean" />
+         </MakeCommands>
+      </Target>
+      <Target title="create_voc_step0">
+         <Option output="/home/hui/study/bow4book/DBow3/utils/utils/create_voc_step0" prefix_auto="0" extension_auto="0" />
+         <Option working_dir="/home/hui/study/bow4book/DBow3/utils/utils" />
+         <Option object_output="./" />
+         <Option type="1" />
+         <Option compiler="gcc" />
+         <Compiler>
+            <Add option="-DOPENCV_VERSION_3" />
+            <Add directory="/home/hui/study/bow4book/DBow3/src" />
+            <Add directory="/usr/local/include" />
+            <Add directory="/usr/local/include/opencv" />
+         </Compiler>
+         <MakeCommands>
+            <Build command="/usr/bin/make -f &quot;/home/hui/study/bow4book/DBow3/utils/utils/Makefile&quot;  VERBOSE=1 create_voc_step0" />
+            <CompileFile command="/usr/bin/make -f &quot;/home/hui/study/bow4book/DBow3/utils/utils/Makefile&quot;  VERBOSE=1 &quot;$file&quot;" />
+            <Clean command="/usr/bin/make -f &quot;/home/hui/study/bow4book/DBow3/utils/utils/Makefile&quot;  VERBOSE=1 clean" />
+            <DistClean command="/usr/bin/make -f &quot;/home/hui/study/bow4book/DBow3/utils/utils/Makefile&quot;  VERBOSE=1 clean" />
+         </MakeCommands>
+      </Target>
+      <Target title="create_voc_step0/fast">
+         <Option output="/home/hui/study/bow4book/DBow3/utils/utils/create_voc_step0" prefix_auto="0" extension_auto="0" />
+         <Option working_dir="/home/hui/study/bow4book/DBow3/utils/utils" />
+         <Option object_output="./" />
+         <Option type="1" />
+         <Option compiler="gcc" />
+         <Compiler>
+            <Add option="-DOPENCV_VERSION_3" />
+            <Add directory="/home/hui/study/bow4book/DBow3/src" />
+            <Add directory="/usr/local/include" />
+            <Add directory="/usr/local/include/opencv" />
+         </Compiler>
+         <MakeCommands>
+            <Build command="/usr/bin/make -f &quot;/home/hui/study/bow4book/DBow3/utils/utils/Makefile&quot;  VERBOSE=1 create_voc_step0/fast" />
+            <CompileFile command="/usr/bin/make -f &quot;/home/hui/study/bow4book/DBow3/utils/utils/Makefile&quot;  VERBOSE=1 &quot;$file&quot;" />
+            <Clean command="/usr/bin/make -f &quot;/home/hui/study/bow4book/DBow3/utils/utils/Makefile&quot;  VERBOSE=1 clean" />
+            <DistClean command="/usr/bin/make -f &quot;/home/hui/study/bow4book/DBow3/utils/utils/Makefile&quot;  VERBOSE=1 clean" />
+         </MakeCommands>
+      </Target>
+      <Target title="create_voc_step1">
+         <Option output="/home/hui/study/bow4book/DBow3/utils/utils/create_voc_step1" prefix_auto="0" extension_auto="0" />
+         <Option working_dir="/home/hui/study/bow4book/DBow3/utils/utils" />
+         <Option object_output="./" />
+         <Option type="1" />
+         <Option compiler="gcc" />
+         <Compiler>
+            <Add option="-DOPENCV_VERSION_3" />
+            <Add directory="/home/hui/study/bow4book/DBow3/src" />
+            <Add directory="/usr/local/include" />
+            <Add directory="/usr/local/include/opencv" />
+         </Compiler>
+         <MakeCommands>
+            <Build command="/usr/bin/make -f &quot;/home/hui/study/bow4book/DBow3/utils/utils/Makefile&quot;  VERBOSE=1 create_voc_step1" />
+            <CompileFile command="/usr/bin/make -f &quot;/home/hui/study/bow4book/DBow3/utils/utils/Makefile&quot;  VERBOSE=1 &quot;$file&quot;" />
+            <Clean command="/usr/bin/make -f &quot;/home/hui/study/bow4book/DBow3/utils/utils/Makefile&quot;  VERBOSE=1 clean" />
+            <DistClean command="/usr/bin/make -f &quot;/home/hui/study/bow4book/DBow3/utils/utils/Makefile&quot;  VERBOSE=1 clean" />
+         </MakeCommands>
+      </Target>
+      <Target title="create_voc_step1/fast">
+         <Option output="/home/hui/study/bow4book/DBow3/utils/utils/create_voc_step1" prefix_auto="0" extension_auto="0" />
+         <Option working_dir="/home/hui/study/bow4book/DBow3/utils/utils" />
+         <Option object_output="./" />
+         <Option type="1" />
+         <Option compiler="gcc" />
+         <Compiler>
+            <Add option="-DOPENCV_VERSION_3" />
+            <Add directory="/home/hui/study/bow4book/DBow3/src" />
+            <Add directory="/usr/local/include" />
+            <Add directory="/usr/local/include/opencv" />
+         </Compiler>
+         <MakeCommands>
+            <Build command="/usr/bin/make -f &quot;/home/hui/study/bow4book/DBow3/utils/utils/Makefile&quot;  VERBOSE=1 create_voc_step1/fast" />
+            <CompileFile command="/usr/bin/make -f &quot;/home/hui/study/bow4book/DBow3/utils/utils/Makefile&quot;  VERBOSE=1 &quot;$file&quot;" />
+            <Clean command="/usr/bin/make -f &quot;/home/hui/study/bow4book/DBow3/utils/utils/Makefile&quot;  VERBOSE=1 clean" />
+            <DistClean command="/usr/bin/make -f &quot;/home/hui/study/bow4book/DBow3/utils/utils/Makefile&quot;  VERBOSE=1 clean" />
+         </MakeCommands>
+      </Target>
+      </Build>
+      <Unit filename="/home/hui/study/bow4book/DBow3/src/BowVector.cpp">
+      </Unit>
+      <Unit filename="/home/hui/study/bow4book/DBow3/src/Database.cpp">
+      </Unit>
+      <Unit filename="/home/hui/study/bow4book/DBow3/src/DescManip.cpp">
+      </Unit>
+      <Unit filename="/home/hui/study/bow4book/DBow3/src/FeatureVector.cpp">
+      </Unit>
+      <Unit filename="/home/hui/study/bow4book/DBow3/src/QueryResults.cpp">
+      </Unit>
+      <Unit filename="/home/hui/study/bow4book/DBow3/src/ScoringObject.cpp">
+      </Unit>
+      <Unit filename="/home/hui/study/bow4book/DBow3/src/Vocabulary.cpp">
+      </Unit>
+      <Unit filename="/home/hui/study/bow4book/DBow3/src/quicklz.c">
+      </Unit>
+      <Unit filename="/home/hui/study/bow4book/DBow3/utils/create_voc_step0.cpp">
+      </Unit>
+      <Unit filename="/home/hui/study/bow4book/DBow3/utils/create_voc_step1.cpp">
+      </Unit>
+      <Unit filename="/home/hui/study/bow4book/DBow3/utils/demo_general.cpp">
+      </Unit>
+      <Unit filename="/home/hui/study/bow4book/DBow3/src/BowVector.h">
+      </Unit>
+      <Unit filename="/home/hui/study/bow4book/DBow3/src/DBoW3.h">
+      </Unit>
+      <Unit filename="/home/hui/study/bow4book/DBow3/src/Database.h">
+      </Unit>
+      <Unit filename="/home/hui/study/bow4book/DBow3/src/DescManip.h">
+      </Unit>
+      <Unit filename="/home/hui/study/bow4book/DBow3/src/FeatureVector.h">
+      </Unit>
+      <Unit filename="/home/hui/study/bow4book/DBow3/src/QueryResults.h">
+      </Unit>
+      <Unit filename="/home/hui/study/bow4book/DBow3/src/ScoringObject.h">
+      </Unit>
+      <Unit filename="/home/hui/study/bow4book/DBow3/src/Vocabulary.h">
+      </Unit>
+      <Unit filename="/home/hui/study/bow4book/DBow3/src/exports.h">
+      </Unit>
+      <Unit filename="/home/hui/study/bow4book/DBow3/src/quicklz.h">
+      </Unit>
+      <Unit filename="/home/hui/study/bow4book/DBow3/src/timers.h">
+      </Unit>
+      <Unit filename="/home/hui/study/bow4book/DBow3/CMakeLists.txt">
+          <Option virtualFolder="CMake Files\" />
+      </Unit>
+      <Unit filename="/home/hui/study/bow4book/DBow3/cmake_uninstall.cmake.in">
+          <Option virtualFolder="CMake Files\" />
+      </Unit>
+      <Unit filename="/home/hui/study/bow4book/DBow3/config.cmake.in">
+          <Option virtualFolder="CMake Files\" />
+      </Unit>
+      <Unit filename="/home/hui/study/bow4book/DBow3/config.cmake.in">
+          <Option virtualFolder="CMake Files\" />
+      </Unit>
+      <Unit filename="/home/hui/study/bow4book/DBow3/../../../../../usr/local/share/OpenCV/OpenCVConfig-version.cmake">
+          <Option virtualFolder="CMake Files\..\..\..\..\..\usr\local\share\OpenCV\" />
+      </Unit>
+      <Unit filename="/home/hui/study/bow4book/DBow3/../../../../../usr/local/share/OpenCV/OpenCVConfig.cmake">
+          <Option virtualFolder="CMake Files\..\..\..\..\..\usr\local\share\OpenCV\" />
+      </Unit>
+      <Unit filename="/home/hui/study/bow4book/DBow3/../../../../../usr/local/share/OpenCV/OpenCVModules.cmake">
+          <Option virtualFolder="CMake Files\..\..\..\..\..\usr\local\share\OpenCV\" />
+      </Unit>
+      <Unit filename="/home/hui/study/bow4book/DBow3/../../../../../usr/local/share/OpenCV/OpenCVModules-release.cmake">
+          <Option virtualFolder="CMake Files\..\..\..\..\..\usr\local\share\OpenCV\" />
+      </Unit>
+      <Unit filename="/home/hui/study/bow4book/DBow3/src/CMakeLists.txt">
+          <Option virtualFolder="CMake Files\src\" />
+      </Unit>
+      <Unit filename="/home/hui/study/bow4book/DBow3/utils/CMakeLists.txt">
+          <Option virtualFolder="CMake Files\utils\" />
+      </Unit>
+   </Project>
+</CodeBlocks_project_file>

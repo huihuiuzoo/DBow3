@@ -1,9 +1,9 @@
 /**
- * Date:  2016
- * Author: Rafael Muñoz Salinas
- * Description: demo application of DBoW3
- * License: see the LICENSE.txt file
- */
+* Date:  2016
+* Author: Rafael Muñoz Salinas
+* Description: demo application of DBoW3
+* License: see the LICENSE.txt file
+*/
 
 #include <iostream>
 #include <vector>
@@ -20,32 +20,40 @@
 #include <opencv2/xfeatures2d.hpp>
 #endif
 #include "DescManip.h"
+#include <map>
 
 using namespace DBoW3;
 using namespace std;
+using namespace cv;
 
+
+//vector< cv::Mat  >  loadFeatures( std::vector<string> path_to_images,string descriptor="") ;
+
+cv::Mat im;
+VideoCapture cap(0);
+vector <cv::Mat> all_images;
 
 //command line parser
-class CmdLineParser{int argc; char **argv; public: CmdLineParser(int _argc,char **_argv):argc(_argc),argv(_argv){}  bool operator[] ( string param ) {int idx=-1;  for ( int i=0; i<argc && idx==-1; i++ ) if ( string ( argv[i] ) ==param ) idx=i;    return ( idx!=-1 ) ;    } string operator()(string param,string defvalue="-1"){int idx=-1;    for ( int i=0; i<argc && idx==-1; i++ ) if ( string ( argv[i] ) ==param ) idx=i; if ( idx==-1 ) return defvalue;   else  return ( argv[  idx+1] ); }};
+class CmdLineParser{int argc; char **argv; public: CmdLineParser(int _argc,char **_argv):argc(_argc),argv(_argv){}  bool operator[] ( string param ) {int idx=-1;  for ( int i=0; i<argc && idx==-1; i++ ) if ( string ( argv[i] ) ==param ) idx=i;    return ( idx!=-1 ) ;    } string operator()(string param,string defvalue="-1"){int idx=-1;    for ( int i=0; i<argc && idx==-1; i++ ) if ( string ( argv[i] ) ==param ) idx=i; if ( idx==-1 ) return defvalue;  else  return ( argv[  idx+1] ); }};
 
-
-// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 // extended surf gives 128-dimensional vectors
 const bool EXTENDED_SURF = false;
-// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 void wait()
 {
     cout << endl << "Press enter to continue" << endl;
     getchar();
+    //loadFeatures();
 }
-
 
 vector<string> readImagePaths(int argc,char **argv,int start){
     vector<string> paths;
     for(int i=start;i<argc;i++)    paths.push_back(argv[i]);
         return paths;
+        
 }
 
 vector< cv::Mat  >  loadFeatures( std::vector<string> path_to_images,string descriptor="") throw (std::exception){
@@ -57,21 +65,21 @@ vector< cv::Mat  >  loadFeatures( std::vector<string> path_to_images,string desc
     else if (descriptor=="akaze") fdetector=cv::AKAZE::create();
 #endif
 #ifdef USE_CONTRIB
-    else if(descriptor=="surf" )  fdetector=cv::xfeatures2d::SURF::create(400, 4, 2, EXTENDED_SURF);
+    else if(descriptor=="surf" )  fdetector = cv::xfeatures2d::SURF::create(400, 4, 2, EXTENDED_SURF);
 #endif
 
     else throw std::runtime_error("Invalid descriptor");
     assert(!descriptor.empty());
     vector<cv::Mat>    features;
 
-
-    cout << "Extracting   features..." << endl;
+    cout << "Extracting  features..." << endl;
     for(size_t i = 0; i < path_to_images.size(); ++i)
     {
         vector<cv::KeyPoint> keypoints;
         cv::Mat descriptors;
         cout<<"reading image: "<<path_to_images[i]<<endl;
         cv::Mat image = cv::imread(path_to_images[i], 0);
+        all_images.push_back(image);
         if(image.empty())throw std::runtime_error("Could not open image"+path_to_images[i]);
         cout<<"extracting features"<<endl;
         fdetector->detectAndCompute(image, cv::Mat(), keypoints, descriptors);
@@ -83,42 +91,85 @@ vector< cv::Mat  >  loadFeatures( std::vector<string> path_to_images,string desc
 
 // ----------------------------------------------------------------------------
 
-void testVocCreation(const vector<cv::Mat> &features)
+//-----------------------------------------------------------------------------
+void creatVoc(const vector<cv::Mat> &features,DBoW3::Vocabulary &voc)
 {
-    // branching factor and depth levels
-    const int k = 9;
-    const int L = 3;
-    const WeightingType weight = TF_IDF;
-    const ScoringType score = L1_NORM;
-
-    DBoW3::Vocabulary voc(k, L, weight, score);
-
-    cout << "Creating a small " << k << "^" << L << " vocabulary..." << endl;
+    //cout << "Creating a small " << k << "^" << L << " vocabulary..." << endl;
     voc.create(features);
     cout << "... done!" << endl;
+}
 
-    cout << "Vocabulary information: " << endl
-         << voc << endl << endl;
+
+void testVocCreation(const vector<cv::Mat> &features,DBoW3::Vocabulary &voc,vector <cv::Mat> &all_images)
+{
+
+    cout<<"voc size is : "<<voc.size()<<endl;
+    map<float,int> img_scores;
+    cap>>im;  //get image from camera
+
+    imshow("org",im);
+    waitKey(10);
+    if(im.empty())throw std::runtime_error("Could not open im");
+
+    cv::Ptr<cv::Feature2D> fdetector_test;
+    fdetector_test=cv::ORB::create();
+    //fdetector_test= cv::xfeatures2d::SURF::create(400, 4, 2, EXTENDED_SURF);
+
+    vector<cv::Mat>    features_test;
+    cout << "Extracting  features..." << endl;
+    vector<cv::KeyPoint> keypoints_test;
+    cv::Mat descriptors_test;
+
+    cout<<"extracting features"<<endl;
+    fdetector_test->detectAndCompute(im, cv::Mat(), keypoints_test, descriptors_test);
+    features_test.push_back(descriptors_test);
 
     // lets do something with this vocabulary
     cout << "Matching images against themselves (0 low, 1 high): " << endl;
     BowVector v1, v2;
-    for(size_t i = 0; i < features.size(); i++)
+
+    for(size_t i = 0; i < features_test.size(); i++)
     {
-        voc.transform(features[i], v1);
+        cout << "test i is :  "<<i << endl;
+        voc.transform(features_test[i], v1);
+        cout << "test i is :  "<<i << endl;
         for(size_t j = 0; j < features.size(); j++)
         {
             voc.transform(features[j], v2);
 
             double score = voc.score(v1, v2);
             cout << "Image " << i << " vs Image " << j << ": " << score << endl;
+
+            img_scores[score] = j;
+
+
         }
     }
 
+    cout<<"img_scores size is :"<<img_scores.size()<<endl;
+    map<float , int>::const_iterator it = img_scores.end();
+    //for (it = img_scores.begin(); it != img_scores.end(); ++it)
+       //cout << it->first << "=" << it->second << endl;
+
+    //cout << endl;
+    --it;
+    cout << it->first << "=" << it->second << endl;  //the last is the max key mean the max score
+
+    //if(it->first>=0.3)
+    {
+        imshow("answer",all_images[it->second]);
+        waitKey(10);
+    }
+    //else
+    {
+        cout<<"cannot recognise book ......"<<endl;
+    }
+
+
     // save the vocabulary to disk
-    cout << endl << "Saving vocabulary..." << endl;
+    //cout << endl << "Saving vocabulary..." << endl;
     voc.save("small_voc.yml.gz");
-    cout << "Done" << endl;
+  // cout << "Done" << endl;
 }
 
 ////// ----------------------------------------------------------------------------
@@ -172,6 +223,41 @@ void testDatabase(const  vector<cv::Mat > &features)
     cout << "... done! This is: " << endl << db2 << endl;
 }
 
+//-------------------------------------------------------------------------------
+void testOurSelf(vector< cv::Mat>  &features )
+{
+
+    cout<<"begin load voc"<<endl;
+    Vocabulary voc_test("small_voc.yml.gz");
+    cout << "finish load voc... " << endl;
+
+    //= cv::imread("/home/gsh/libs/DBow3/build/utils/test.jpg",0);
+    cap>>im;
+    if(im.empty())throw std::runtime_error("Could not open im");
+
+    cv::Ptr<cv::Feature2D> fdetector_test;
+    fdetector_test=cv::ORB::create();
+
+    vector<cv::Mat>    features_test;
+    cout << "Extracting  features..." << endl;
+    vector<cv::KeyPoint> keypoints_test;
+    cv::Mat descriptors_test;
+
+    cout<<"extracting features"<<endl;
+    fdetector_test->detectAndCompute(im, cv::Mat(), keypoints_test, descriptors_test);
+    features_test.push_back(descriptors_test);
+
+    BowVector v1, v2;
+
+    voc_test.transform(features_test[0], v1);
+    for(size_t j = 0; j < features.size(); j++)
+    {
+        voc_test.transform(features[j], v2);
+        double score = voc_test.score(v1, v2);
+        cout << "Image " << 0 << " vs Image " << j << ": " << score << endl;
+    }
+
+}
 
 // ----------------------------------------------------------------------------
 
@@ -179,24 +265,49 @@ int main(int argc,char **argv)
 {
 
     try{
-        CmdLineParser cml(argc,argv);
+      CmdLineParser cml(argc,argv);
         if (cml["-h"] || argc<=2){
-            cerr<<"Usage:  descriptor_name     image0 image1 ... \n\t descriptors:brisk,surf,orb ,akaze(only if using opencv 3)"<<endl;
-             return -1;
+            cerr<<"Usage:  descriptor_name    image0 image1 ... \n\t descriptors:brisk,surf,orb ,akaze(only if using opencv 3)"<<endl;
+            return -1;
         }
 
         string descriptor=argv[1];
 
-        auto images=readImagePaths(argc,argv,2);
-        vector< cv::Mat   >   features= loadFeatures(images,descriptor);
-        testVocCreation(features);
+        auto images = readImagePaths(argc,argv,2);
+
+        vector< cv::Mat>  features = loadFeatures(images,descriptor);
+        //features_test = loadFeatures(images,descriptor);
 
 
-        testDatabase(features);
+        // branching factor and depth levels
+        const int k = 15;
+        const int L = 5;
+        const WeightingType weight = TF_IDF;
+        const ScoringType score = L1_NORM;
+        DBoW3::Vocabulary voc(k, L, weight, score);
 
-    }catch(std::exception &ex){
+        creatVoc(features,voc);
+        if(!cap.isOpened())
+        {
+            cout << "Cannot open video/camera!" << endl;
+            return 0;
+        }
+        //cap >> frame;
+
+        while(1)
+        {
+            testVocCreation(features,voc,all_images);
+        }
+
+        cout<<"finish save voc"<<endl;
+
+
+        testOurSelf(features);
+        //testDatabase(features);
+
+    }catch(std::exception &ex)
+    {
         cerr<<ex.what()<<endl;
     }
-
     return 0;
 }

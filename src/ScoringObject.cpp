@@ -25,6 +25,8 @@ double L1Scoring::score(const BowVector &v1, const BowVector &v2) const
   BowVector::const_iterator v1_it, v2_it;
   const BowVector::const_iterator v1_end = v1.end();
   const BowVector::const_iterator v2_end = v2.end();
+
+  std::cout<<"begin compute score in L1..."<<std::endl;
   
   v1_it = v1.begin();
   v2_it = v2.begin();
@@ -229,6 +231,8 @@ double BhattacharyyaScoring::score(const BowVector &v1,
   BowVector::const_iterator v1_it, v2_it;
   const BowVector::const_iterator v1_end = v1.end();
   const BowVector::const_iterator v2_end = v2.end();
+
+  std::cout<<"begin compute score..."<<std::endl;
   
   v1_it = v1.begin();
   v2_it = v2.begin();
@@ -274,6 +278,8 @@ double DotProductScoring::score(const BowVector &v1,
   BowVector::const_iterator v1_it, v2_it;
   const BowVector::const_iterator v1_end = v1.end();
   const BowVector::const_iterator v2_end = v2.end();
+
+  std::cout<<"begin compute score..."<<std::endl;
   
   v1_it = v1.begin();
   v2_it = v2.begin();

@@ -1,0 +1,5 @@
+/home/hui/study/bow4book/DBow3/utils/utils/CMakeFiles/demo_general.dir
+/home/hui/study/bow4book/DBow3/utils/CMakeFiles/uninstall.dir
+/home/hui/study/bow4book/DBow3/utils/utils/CMakeFiles/create_voc_step0.dir
+/home/hui/study/bow4book/DBow3/utils/utils/CMakeFiles/create_voc_step1.dir
+/home/hui/study/bow4book/DBow3/utils/src/CMakeFiles/DBoW3.dir

@@ -38,12 +38,15 @@ Vocabulary::Vocabulary
 
 void Vocabulary::createScoringObject()
 {
+
+  std::cout<<"createScoringObject..."<<std::endl;
   delete m_scoring_object;
   m_scoring_object = NULL;
 
   switch(m_scoring)
   {
     case L1_NORM:
+      std::cout<<"using L1_NORM ..."<<std::endl;
       m_scoring_object = new L1Scoring;
       break;
 
@@ -67,7 +70,10 @@ void Vocabulary::createScoringObject()
       m_scoring_object = new DotProductScoring;
       break;
 
+
   }
+
+  std::cout<<"finish createScoringObject..."<<std::endl;
 }
 
 // --------------------------------------------------------------------------
@@ -1049,6 +1055,8 @@ void Vocabulary::save(const std::string &filename,  bool binary_compressed) cons
 
 void Vocabulary::load(const std::string &filename)
 {
+
+    std::cout<<"load "<<filename<<std::endl;
     //check first if it is a binary file
     std::ifstream ifile(filename);
     if (!ifile) throw std::runtime_error("Vocabulary::load Could not open file :"+filename+" for reading");
@@ -1102,7 +1110,7 @@ void Vocabulary::save(cv::FileStorage &f,
     for(pit = children.begin(); pit != children.end(); pit++)
     {
       const Node& child = m_nodes[*pit];
-      std::cout<<m_nodes[*pit].id<<" ";
+      //std::cout<<m_nodes[*pit].id<<" ";
 
       // save node data
       f << "{:";
@@ -1119,7 +1127,7 @@ void Vocabulary::save(cv::FileStorage &f,
       }
     }
   }
-  std::cout<<"\n";
+  //std::cout<<"\n";
 
   f << "]"; // nodes
 
@@ -1375,26 +1383,33 @@ void Vocabulary::fromStream(  std::istream &str )   throw(std::exception){
 void Vocabulary::load(const cv::FileStorage &fs,
   const std::string &name)
 {
+  std::cout<<"load the voc..."<<std::endl;
   m_words.clear();
   m_nodes.clear();
 
   cv::FileNode fvoc = fs[name];
+  std::cout<<"load the voc..."<<std::endl;
 
   m_k = (int)fvoc["k"];
   m_L = (int)fvoc["L"];
   m_scoring = (ScoringType)((int)fvoc["scoringType"]);
   m_weighting = (WeightingType)((int)fvoc["weightingType"]);
+  std::cout<<"load the voc..."<<std::endl;
 
   createScoringObject();
 
   // nodes
   cv::FileNode fn = fvoc["nodes"];
+  std::cout<<"node..."<<std::endl;
 
   m_nodes.resize(fn.size() + 1); // +1 to include root
   m_nodes[0].id = 0;
 
+  std::cout<<"m_nodes..."<<m_nodes.size()<<std::endl;
+
   for(unsigned int i = 0; i < fn.size(); ++i)
   {
+    std::cout<<"i is ..."<<i<<std::endl;
     NodeId nid = (int)fn[i]["nodeId"];
     NodeId pid = (int)fn[i]["parentId"];
     WordValue weight = (WordValue)fn[i]["weight"];
@@ -1410,6 +1425,7 @@ void Vocabulary::load(const cv::FileStorage &fs,
 
   // words
   fn = fvoc["words"];
+  std::cout<<"words..."<<std::endl;
 
   m_words.resize(fn.size());
 
@@ -1421,6 +1437,8 @@ void Vocabulary::load(const cv::FileStorage &fs,
     m_nodes[nid].word_id = wid;
     m_words[wid] = &m_nodes[nid];
   }
+
+  std::cout<<"load function finish..."<<std::endl;
 }
 
 // --------------------------------------------------------------------------
