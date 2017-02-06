@@ -21,6 +21,9 @@
 #endif
 #include "DescManip.h"
 #include <map>
+#include <opencv2/imgproc.hpp>
+#include <opencv2/highgui.hpp>
+#include <sys/time.h>
 
 using namespace DBoW3;
 using namespace std;
@@ -32,6 +35,14 @@ using namespace cv;
 cv::Mat im;
 VideoCapture cap(0);
 vector <cv::Mat> all_images;
+
+
+struct timeval tpstart,tpend;
+float timeuse;
+
+struct timeval tpstart_database,tpend_database;
+float timeuse_database;
+
 
 //command line parser
 class CmdLineParser{int argc; char **argv; public: CmdLineParser(int _argc,char **_argv):argc(_argc),argv(_argv){}  bool operator[] ( string param ) {int idx=-1;  for ( int i=0; i<argc && idx==-1; i++ ) if ( string ( argv[i] ) ==param ) idx=i;    return ( idx!=-1 ) ;    } string operator()(string param,string defvalue="-1"){int idx=-1;    for ( int i=0; i<argc && idx==-1; i++ ) if ( string ( argv[i] ) ==param ) idx=i; if ( idx==-1 ) return defvalue;  else  return ( argv[  idx+1] ); }};
@@ -79,11 +90,25 @@ vector< cv::Mat  >  loadFeatures( std::vector<string> path_to_images,string desc
         cv::Mat descriptors;
         cout<<"reading image: "<<path_to_images[i]<<endl;
         cv::Mat image = cv::imread(path_to_images[i], 0);
-        all_images.push_back(image);
+        //cvtColor(image, image, COLOR_BGR2GRAY);
+
+        equalizeHist(image,image);
+        int index_ = 2;
+
+
+
+        cout<<"the size of all_images is :  "<<all_images.size()<<endl;
+
         if(image.empty())throw std::runtime_error("Could not open image"+path_to_images[i]);
         cout<<"extracting features"<<endl;
         fdetector->detectAndCompute(image, cv::Mat(), keypoints, descriptors);
         features.push_back(descriptors);
+
+        if(i%index_ == 0)
+        {
+                drawKeypoints(image, keypoints,image,Scalar::all(-1), DrawMatchesFlags::DEFAULT);
+                all_images.push_back(image);
+        }
         cout<<"done detecting features"<<endl;
     }
     return features;
@@ -96,23 +121,31 @@ void creatVoc(const vector<cv::Mat> &features,DBoW3::Vocabulary &voc)
 {
     //cout << "Creating a small " << k << "^" << L << " vocabulary..." << endl;
     voc.create(features);
+    voc.save("small_voc.yml.gz");
     cout << "... done!" << endl;
 }
 
 
-void testVocCreation(const vector<cv::Mat> &features,DBoW3::Vocabulary &voc,vector <cv::Mat> &all_images)
+void testVocCreation(const vector<cv::Mat> &features,DBoW3::Vocabulary &voc,vector <cv::Mat> &all_images , Mat mapx,Mat mapy)
 {
 
-    cout<<"voc size is : "<<voc.size()<<endl;
+    //cout<<"voc size is : "<<voc.size()<<endl;
     map<float,int> img_scores;
-    cap>>im;  //get image from camera
 
-    imshow("org",im);
-    waitKey(10);
-    if(im.empty())throw std::runtime_error("Could not open im");
+    gettimeofday(&tpstart,NULL);
+    cap>>im;  //get image from camera
+    imshow("org_rgb",im);
+
+    cv::remap(im,im,mapx, mapy, INTER_LINEAR);
+    cvtColor(im, im, COLOR_BGR2GRAY);
+
+    equalizeHist(im,im);
+
+    if(im.empty())
+        throw std::runtime_error("Could not open im");
 
     cv::Ptr<cv::Feature2D> fdetector_test;
-    fdetector_test=cv::ORB::create();
+    fdetector_test = cv::ORB::create();
     //fdetector_test= cv::xfeatures2d::SURF::create(400, 4, 2, EXTENDED_SURF);
 
     vector<cv::Mat>    features_test;
@@ -122,7 +155,11 @@ void testVocCreation(const vector<cv::Mat> &features,DBoW3::Vocabulary &voc,vect
 
     cout<<"extracting features"<<endl;
     fdetector_test->detectAndCompute(im, cv::Mat(), keypoints_test, descriptors_test);
+    drawKeypoints(im, keypoints_test,im,Scalar::all(-1), DrawMatchesFlags::DEFAULT);
     features_test.push_back(descriptors_test);
+
+    imshow("org_afterEqual",im);
+    waitKey(10);
 
     // lets do something with this vocabulary
     cout << "Matching images against themselves (0 low, 1 high): " << endl;
@@ -146,8 +183,14 @@ void testVocCreation(const vector<cv::Mat> &features,DBoW3::Vocabulary &voc,vect
         }
     }
 
+    gettimeofday(&tpend,NULL);
+    timeuse=1000000*(tpend.tv_sec-tpstart.tv_sec)+ tpend.tv_usec-tpstart.tv_usec; //该时间单位为微妙
+    timeuse/=1000000; //将微妙的时间换算为妙
+    printf("Used Time:%fn",timeuse);
+
     cout<<"img_scores size is :"<<img_scores.size()<<endl;
     map<float , int>::const_iterator it = img_scores.end();
+    map<float , int>::const_iterator it_show = img_scores.end();
     //for (it = img_scores.begin(); it != img_scores.end(); ++it)
        //cout << it->first << "=" << it->second << endl;
 
@@ -155,12 +198,18 @@ void testVocCreation(const vector<cv::Mat> &features,DBoW3::Vocabulary &voc,vect
     --it;
     cout << it->first << "=" << it->second << endl;  //the last is the max key mean the max score
 
-    //if(it->first>=0.3)
+    float max_score = it->first;
+    float distance = it->first - (--it)->first;
+    cout<<"distance is :"<<distance<<endl;
+
+    if(distance/max_score>=0.2)
     {
-        imshow("answer",all_images[it->second]);
+        int index_ans = ((--it_show)->second)/2;
+        cout<<"index_ans is :"<<index_ans<<endl;
+        imshow("answer",all_images[index_ans]);
         waitKey(10);
     }
-    //else
+    else
     {
         cout<<"cannot recognise book ......"<<endl;
     }
@@ -168,18 +217,45 @@ void testVocCreation(const vector<cv::Mat> &features,DBoW3::Vocabulary &voc,vect
 
     // save the vocabulary to disk
     //cout << endl << "Saving vocabulary..." << endl;
-    voc.save("small_voc.yml.gz");
+    //voc.save("small_voc.yml.gz");
   // cout << "Done" << endl;
 }
 
 ////// ----------------------------------------------------------------------------
 
-void testDatabase(const  vector<cv::Mat > &features)
+void testDatabase(const  vector<cv::Mat > &features,DBoW3::Vocabulary &voc,vector <cv::Mat> &all_images , Mat mapx,Mat mapy)
 {
+
+    cap>>im;  //get image from camera
+    imshow("org_rgb",im);
+
+    cv::remap(im,im,mapx, mapy, INTER_LINEAR);
+    cvtColor(im, im, COLOR_BGR2GRAY);
+
+    equalizeHist(im,im);
+
+    if(im.empty())
+        throw std::runtime_error("Could not open im");
+
+    cv::Ptr<cv::Feature2D> fdetector_test;
+    fdetector_test = cv::ORB::create();
+    //fdetector_test= cv::xfeatures2d::SURF::create(400, 4, 2, EXTENDED_SURF);
+
+    vector<cv::Mat>    features_test;
+    cout << "Extracting  features..." << endl;
+    vector<cv::KeyPoint> keypoints_test;
+    cv::Mat descriptors_test;
+
+    cout<<"extracting features"<<endl;
+    fdetector_test->detectAndCompute(im, cv::Mat(), keypoints_test, descriptors_test);
+    drawKeypoints(im, keypoints_test,im,Scalar::all(-1), DrawMatchesFlags::DEFAULT);
+    features_test.push_back(descriptors_test);
+
+
     cout << "Creating a small database..." << endl;
 
     // load the vocabulary from disk
-    Vocabulary voc("small_voc.yml.gz");
+    //Vocabulary voc("small_voc.yml.gz");
 
     Database db(voc, false, 0); // false = do not use direct index
     // (so ignore the last param)
@@ -192,27 +268,51 @@ void testDatabase(const  vector<cv::Mat > &features)
         db.add(features[i]);
 
     cout << "... done!" << endl;
-
     cout << "Database information: " << endl << db << endl;
 
     // and query the database
     cout << "Querying the database: " << endl;
 
+    gettimeofday(&tpstart_database,NULL);
+
     QueryResults ret;
-    for(size_t i = 0; i < features.size(); i++)
+    //for(size_t i = 0; i < features.size(); i++)
     {
-        db.query(features[i], ret, 4);
+        db.query(features_test[0], ret, 4);
 
         // ret[0] is always the same image in this case, because we added it to the
         // database. ret[1] is the second best match.
 
-        cout << "Searching for Image " << i << ". " << ret << endl;
+        cout << "Searching for Image " << 0 << ". " << ret << endl;
     }
 
+    cout<<"ret[1] id is :"<<ret[0].Id<<endl;
+
+    //int max_score = ret[1];
+    //if(distance/max_score>=0.2)
+    {
+        int index_ans = ret[0].Id/2;
+        cout<<"index_ans is :"<<index_ans<<endl;
+        imshow("answer",all_images[index_ans]);
+        waitKey(10);
+    }
+    //else
+    //{
+     //   cout<<"cannot recognise book ......"<<endl;
+    //}
+
     cout << endl;
+    gettimeofday(&tpend_database,NULL);
+
+    timeuse_database=1000000*(tpend_database.tv_sec-tpstart_database.tv_sec)+ tpend_database.tv_usec-tpstart_database.tv_usec; //该时间单位为微妙
+    timeuse_database/=1000000; //将微妙的时间换算为妙
+
+    cout<<"Used Time is : " <<timeuse_database<<endl;
+
 
     // we can save the database. The created file includes the vocabulary
     // and the entries added
+    /*
     cout << "Saving database..." << endl;
     db.save("small_db.yml.gz");
     cout << "... done!" << endl;
@@ -220,49 +320,30 @@ void testDatabase(const  vector<cv::Mat > &features)
     // once saved, we can load it again
     cout << "Retrieving database once again..." << endl;
     Database db2("small_db.yml.gz");
-    cout << "... done! This is: " << endl << db2 << endl;
+    cout << "... done! This is: " << endl << db2 << endl;*/
 }
 
-//-------------------------------------------------------------------------------
-void testOurSelf(vector< cv::Mat>  &features )
-{
-
-    cout<<"begin load voc"<<endl;
-    Vocabulary voc_test("small_voc.yml.gz");
-    cout << "finish load voc... " << endl;
-
-    //= cv::imread("/home/gsh/libs/DBow3/build/utils/test.jpg",0);
-    cap>>im;
-    if(im.empty())throw std::runtime_error("Could not open im");
-
-    cv::Ptr<cv::Feature2D> fdetector_test;
-    fdetector_test=cv::ORB::create();
-
-    vector<cv::Mat>    features_test;
-    cout << "Extracting  features..." << endl;
-    vector<cv::KeyPoint> keypoints_test;
-    cv::Mat descriptors_test;
-
-    cout<<"extracting features"<<endl;
-    fdetector_test->detectAndCompute(im, cv::Mat(), keypoints_test, descriptors_test);
-    features_test.push_back(descriptors_test);
-
-    BowVector v1, v2;
-
-    voc_test.transform(features_test[0], v1);
-    for(size_t j = 0; j < features.size(); j++)
-    {
-        voc_test.transform(features[j], v2);
-        double score = voc_test.score(v1, v2);
-        cout << "Image " << 0 << " vs Image " << j << ": " << score << endl;
-    }
-
-}
 
 // ----------------------------------------------------------------------------
 
+
+void Init(Mat &mapx,Mat &mapy )
+{
+    float intrinsic[9] = {421.9990299642099, 0, 329.7548290680634,
+                          0, 422.6720358434988, 232.4714058766005,
+                          0, 0, 1};
+    float distortion[5] = {-0.4133597168995417, 0.2189966631182828, -0.0009415959480780424, -7.895668923449999e-05, -0.06797981130789157};
+    Mat intrinsic_matrix = Mat(3,3,CV_32FC1,intrinsic);
+    Mat distortion_coeffs = Mat(1,5,CV_32FC1,distortion);
+    Mat R = Mat::eye(3,3,CV_32FC1);
+    Size image_size = Size(im.size());
+    initUndistortRectifyMap(intrinsic_matrix,distortion_coeffs,R,intrinsic_matrix,image_size,CV_32FC1,mapx,mapy);
+}
+
 int main(int argc,char **argv)
 {
+
+
 
     try{
       CmdLineParser cml(argc,argv);
@@ -292,18 +373,26 @@ int main(int argc,char **argv)
             cout << "Cannot open video/camera!" << endl;
             return 0;
         }
-        //cap >> frame;
+        cap >> im;
+        Mat mapx(im.size(),CV_32FC1);
+        Mat mapy(im.size(),CV_32FC1);
+        Init(mapx,mapy);
+
 
         while(1)
         {
-            testVocCreation(features,voc,all_images);
+            testVocCreation(features,voc,all_images,mapx,mapy);
+            //testDatabase(features,voc,all_images,mapx,mapy);
         }
 
         cout<<"finish save voc"<<endl;
 
+        //testOurSelf(features);
+        /*while(1)
+        {
+            testDatabase(features,voc,all_images,mapx,mapy);
+        }*/
 
-        testOurSelf(features);
-        //testDatabase(features);
 
     }catch(std::exception &ex)
     {

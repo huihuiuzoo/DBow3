@@ -139,13 +139,22 @@ Vocabulary::operator=
 void Vocabulary::create(
   const std::vector< cv::Mat > &training_features)
 {
+    std::cout<<"begin train "<<std::endl;
+    std::cout<<"begin train "<<(int)training_features.size()<<std::endl;
+
     std::vector<std::vector<cv::Mat> > vtf(training_features.size());
     for(size_t i=0;i<training_features.size();i++){
+        std::cout<<"i is  "<<i<<std::endl;
         vtf[i].resize(training_features[i].rows);
         for(int r=0;r<training_features[i].rows;r++)
+        {
+            //std::cout<<"r is  "<<r<<std::endl;
             vtf[i][r]=training_features[i].rowRange(r,r+1);
+        }
+
     }
     create(vtf);
+    std::cout<<"finish train "<<std::endl;
 
 }
 

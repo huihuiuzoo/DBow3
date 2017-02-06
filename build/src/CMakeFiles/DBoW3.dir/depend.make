@@ -68,6 +68,8 @@ src/CMakeFiles/DBoW3.dir/Database.cpp.o: /usr/local/include/opencv2/video/tracki
 src/CMakeFiles/DBoW3.dir/Database.cpp.o: /usr/local/include/opencv2/video/tracking_c.h
 src/CMakeFiles/DBoW3.dir/Database.cpp.o: /usr/local/include/opencv2/videoio.hpp
 src/CMakeFiles/DBoW3.dir/Database.cpp.o: /usr/local/include/opencv2/videoio/videoio_c.h
+src/CMakeFiles/DBoW3.dir/Database.cpp.o: /usr/local/include/opencv2/xfeatures2d.hpp
+src/CMakeFiles/DBoW3.dir/Database.cpp.o: /usr/local/include/opencv2/xfeatures2d/nonfree.hpp
 
 src/CMakeFiles/DBoW3.dir/DescManip.cpp.o: ../src/DescManip.cpp
 src/CMakeFiles/DBoW3.dir/DescManip.cpp.o: ../src/DescManip.h
@@ -124,6 +126,8 @@ src/CMakeFiles/DBoW3.dir/DescManip.cpp.o: /usr/local/include/opencv2/video/track
 src/CMakeFiles/DBoW3.dir/DescManip.cpp.o: /usr/local/include/opencv2/video/tracking_c.h
 src/CMakeFiles/DBoW3.dir/DescManip.cpp.o: /usr/local/include/opencv2/videoio.hpp
 src/CMakeFiles/DBoW3.dir/DescManip.cpp.o: /usr/local/include/opencv2/videoio/videoio_c.h
+src/CMakeFiles/DBoW3.dir/DescManip.cpp.o: /usr/local/include/opencv2/xfeatures2d.hpp
+src/CMakeFiles/DBoW3.dir/DescManip.cpp.o: /usr/local/include/opencv2/xfeatures2d/nonfree.hpp
 
 src/CMakeFiles/DBoW3.dir/FeatureVector.cpp.o: ../src/BowVector.h
 src/CMakeFiles/DBoW3.dir/FeatureVector.cpp.o: ../src/FeatureVector.cpp
@@ -192,6 +196,8 @@ src/CMakeFiles/DBoW3.dir/ScoringObject.cpp.o: /usr/local/include/opencv2/video/t
 src/CMakeFiles/DBoW3.dir/ScoringObject.cpp.o: /usr/local/include/opencv2/video/tracking_c.h
 src/CMakeFiles/DBoW3.dir/ScoringObject.cpp.o: /usr/local/include/opencv2/videoio.hpp
 src/CMakeFiles/DBoW3.dir/ScoringObject.cpp.o: /usr/local/include/opencv2/videoio/videoio_c.h
+src/CMakeFiles/DBoW3.dir/ScoringObject.cpp.o: /usr/local/include/opencv2/xfeatures2d.hpp
+src/CMakeFiles/DBoW3.dir/ScoringObject.cpp.o: /usr/local/include/opencv2/xfeatures2d/nonfree.hpp
 
 src/CMakeFiles/DBoW3.dir/Vocabulary.cpp.o: ../src/BowVector.h
 src/CMakeFiles/DBoW3.dir/Vocabulary.cpp.o: ../src/DescManip.h
@@ -254,4 +260,6 @@ src/CMakeFiles/DBoW3.dir/Vocabulary.cpp.o: /usr/local/include/opencv2/video/trac
 src/CMakeFiles/DBoW3.dir/Vocabulary.cpp.o: /usr/local/include/opencv2/video/tracking_c.h
 src/CMakeFiles/DBoW3.dir/Vocabulary.cpp.o: /usr/local/include/opencv2/videoio.hpp
 src/CMakeFiles/DBoW3.dir/Vocabulary.cpp.o: /usr/local/include/opencv2/videoio/videoio_c.h
+src/CMakeFiles/DBoW3.dir/Vocabulary.cpp.o: /usr/local/include/opencv2/xfeatures2d.hpp
+src/CMakeFiles/DBoW3.dir/Vocabulary.cpp.o: /usr/local/include/opencv2/xfeatures2d/nonfree.hpp
 

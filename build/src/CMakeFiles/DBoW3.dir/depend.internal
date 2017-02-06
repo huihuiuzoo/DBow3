@@ -69,6 +69,8 @@ src/CMakeFiles/DBoW3.dir/Database.cpp.o
  /usr/local/include/opencv2/video/tracking_c.h
  /usr/local/include/opencv2/videoio.hpp
  /usr/local/include/opencv2/videoio/videoio_c.h
+ /usr/local/include/opencv2/xfeatures2d.hpp
+ /usr/local/include/opencv2/xfeatures2d/nonfree.hpp
 src/CMakeFiles/DBoW3.dir/DescManip.cpp.o
  /home/hui/study/bow4book/DBow3/src/DescManip.cpp
  /home/hui/study/bow4book/DBow3/src/DescManip.h
@@ -125,6 +127,8 @@ src/CMakeFiles/DBoW3.dir/DescManip.cpp.o
  /usr/local/include/opencv2/video/tracking_c.h
  /usr/local/include/opencv2/videoio.hpp
  /usr/local/include/opencv2/videoio/videoio_c.h
+ /usr/local/include/opencv2/xfeatures2d.hpp
+ /usr/local/include/opencv2/xfeatures2d/nonfree.hpp
 src/CMakeFiles/DBoW3.dir/FeatureVector.cpp.o
  /home/hui/study/bow4book/DBow3/src/BowVector.h
  /home/hui/study/bow4book/DBow3/src/FeatureVector.cpp
@@ -193,6 +197,8 @@ src/CMakeFiles/DBoW3.dir/ScoringObject.cpp.o
  /usr/local/include/opencv2/video/tracking_c.h
  /usr/local/include/opencv2/videoio.hpp
  /usr/local/include/opencv2/videoio/videoio_c.h
+ /usr/local/include/opencv2/xfeatures2d.hpp
+ /usr/local/include/opencv2/xfeatures2d/nonfree.hpp
 src/CMakeFiles/DBoW3.dir/Vocabulary.cpp.o
  /home/hui/study/bow4book/DBow3/src/BowVector.h
  /home/hui/study/bow4book/DBow3/src/DescManip.h
@@ -255,3 +261,5 @@ src/CMakeFiles/DBoW3.dir/Vocabulary.cpp.o
  /usr/local/include/opencv2/video/tracking_c.h
  /usr/local/include/opencv2/videoio.hpp
  /usr/local/include/opencv2/videoio/videoio_c.h
+ /usr/local/include/opencv2/xfeatures2d.hpp
+ /usr/local/include/opencv2/xfeatures2d/nonfree.hpp
