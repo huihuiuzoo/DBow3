@@ -294,7 +294,7 @@ void Database::queryL1(const BowVector &vec,
   QueryResults &ret, int max_results, int max_id) const
 {
   BowVector::const_iterator vit;
-
+ // EntryId  WordId is unsigned int WordValue is double
   std::map<EntryId, double> pairs;
   std::map<EntryId, double>::iterator pit;
 
@@ -303,6 +303,7 @@ void Database::queryL1(const BowVector &vec,
     const WordId word_id = vit->first;
     const WordValue& qvalue = vit->second;
 
+    //IFRow---> std::list<IFPair>--->
     const IFRow& row = m_ifile[word_id];
 
     // IFRows are sorted in ascending entry_id order

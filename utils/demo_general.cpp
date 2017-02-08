@@ -25,6 +25,9 @@
 #include <opencv2/highgui.hpp>
 #include <sys/time.h>
 
+#include <fstream> //文件输入输出流
+
+
 using namespace DBoW3;
 using namespace std;
 using namespace cv;
@@ -35,6 +38,8 @@ using namespace cv;
 cv::Mat im;
 VideoCapture cap(0);
 vector <cv::Mat> all_images;
+ofstream myfile("example.txt",ios::out);  //example.txt是你要输出的文件的名字
+int index_ = 1;//every book have index_ image
 
 
 struct timeval tpstart,tpend;
@@ -93,10 +98,6 @@ vector< cv::Mat  >  loadFeatures( std::vector<string> path_to_images,string desc
         //cvtColor(image, image, COLOR_BGR2GRAY);
 
         equalizeHist(image,image);
-        int index_ = 2;
-
-
-
         cout<<"the size of all_images is :  "<<all_images.size()<<endl;
 
         if(image.empty())throw std::runtime_error("Could not open image"+path_to_images[i]);
@@ -229,33 +230,6 @@ void testDatabase(const  vector<cv::Mat > &features,DBoW3::Vocabulary &voc,vecto
     cap>>im;  //get image from camera
     imshow("org_rgb",im);
 
-    cv::remap(im,im,mapx, mapy, INTER_LINEAR);
-    cvtColor(im, im, COLOR_BGR2GRAY);
-
-    equalizeHist(im,im);
-
-    if(im.empty())
-        throw std::runtime_error("Could not open im");
-
-    cv::Ptr<cv::Feature2D> fdetector_test;
-    fdetector_test = cv::ORB::create();
-    //fdetector_test= cv::xfeatures2d::SURF::create(400, 4, 2, EXTENDED_SURF);
-
-    vector<cv::Mat>    features_test;
-    cout << "Extracting  features..." << endl;
-    vector<cv::KeyPoint> keypoints_test;
-    cv::Mat descriptors_test;
-
-    cout<<"extracting features"<<endl;
-    fdetector_test->detectAndCompute(im, cv::Mat(), keypoints_test, descriptors_test);
-    drawKeypoints(im, keypoints_test,im,Scalar::all(-1), DrawMatchesFlags::DEFAULT);
-    features_test.push_back(descriptors_test);
-
-
-    cout << "Creating a small database..." << endl;
-
-    // load the vocabulary from disk
-    //Vocabulary voc("small_voc.yml.gz");
 
     Database db(voc, false, 0); // false = do not use direct index
     // (so ignore the last param)
@@ -270,10 +244,39 @@ void testDatabase(const  vector<cv::Mat > &features,DBoW3::Vocabulary &voc,vecto
     cout << "... done!" << endl;
     cout << "Database information: " << endl << db << endl;
 
-    // and query the database
-    cout << "Querying the database: " << endl;
+    cv::remap(im,im,mapx, mapy, INTER_LINEAR);
+    cvtColor(im, im, COLOR_BGR2GRAY);
 
     gettimeofday(&tpstart_database,NULL);
+
+    equalizeHist(im,im);
+
+    if(im.empty())
+        throw std::runtime_error("Could not open im");
+
+    cv::Ptr<cv::Feature2D> fdetector_test;
+    fdetector_test = cv::ORB::create();
+
+    vector<cv::Mat>    features_test;
+    cout << "Extracting  features..." << endl;
+    vector<cv::KeyPoint> keypoints_test;
+    cv::Mat descriptors_test;
+
+    cout<<"extracting features"<<endl;
+    fdetector_test->detectAndCompute(im, cv::Mat(), keypoints_test, descriptors_test);
+    drawKeypoints(im, keypoints_test,im,Scalar::all(-1), DrawMatchesFlags::DEFAULT);
+    features_test.push_back(descriptors_test);
+
+    imshow("keypoints",im);
+    waitKey(10);
+
+    cout << "Creating a small database..." << endl;
+
+    // load the vocabulary from disk
+    //Vocabulary voc("small_voc.yml.gz");
+
+    // and query the database
+    cout << "Querying the database: " << endl;
 
     QueryResults ret;
     //for(size_t i = 0; i < features.size(); i++)
@@ -289,17 +292,102 @@ void testDatabase(const  vector<cv::Mat > &features,DBoW3::Vocabulary &voc,vecto
     cout<<"ret[1] id is :"<<ret[0].Id<<endl;
 
     //int max_score = ret[1];
-    //if(distance/max_score>=0.2)
+    float score_max,score_max_2th,score_max_3th,score_total;
+    int index_max,index_max_2th,index_max_3th;
+    score_total = 0.0;
+    for(int k = 0; k < ret.size(); k++)
     {
-        int index_ans = ret[0].Id/2;
-        cout<<"index_ans is :"<<index_ans<<endl;
-        imshow("answer",all_images[index_ans]);
-        waitKey(10);
+        score_total +=ret[k].Score;
+
     }
-    //else
-    //{
-     //   cout<<"cannot recognise book ......"<<endl;
-    //}
+
+    score_total = score_total/(int)ret.size();
+
+    score_max = ret[0].Score;
+    score_max_2th = ret[1].Score;
+    score_max_3th = ret[2].Score;
+
+    index_max = ret[0].Id;
+    index_max_2th = ret[1].Id;
+    index_max_3th = ret[2].Id;
+    float thre = 0.25;
+
+    if(score_max>0.03&&(score_max-score_total)/score_max>thre)
+    {
+        int index_ans = ret[0].Id%80;
+        cout<<"index_ans is :"<<index_ans<<endl;
+        char str_lx[60];
+        int  score =ret[0].Score*10000;
+        sprintf(str_lx,"score_%d",score);
+
+        Mat img_src = all_images[index_ans].clone();
+        cv::putText(img_src,str_lx,cv::Point(100,100),CV_FONT_HERSHEY_SIMPLEX,1,cv::Scalar(100,100));
+        imshow("answer",img_src);
+        int key = waitKey(30);
+
+        //if('s'==key)
+        {
+            myfile<<ret<<endl;
+        }
+
+    }
+    else
+    {
+        cout<<"can not recognise the book ...... " <<endl;
+    }
+
+
+/*
+    if(index_max%80==index_max_2th%80)
+    {
+        if(score_max>0.03&&(score_max-score_max_3th)/score_max>thre)
+        {
+            int index_ans = ret[0].Id%80;
+            cout<<"index_ans is :"<<index_ans<<endl;
+            char str_lx[60];
+            int  score =ret[0].Score*10000;
+            sprintf(str_lx,"score_%d",score);
+
+            Mat img_src = all_images[index_ans].clone();
+            cv::putText(img_src,str_lx,cv::Point(100,100),CV_FONT_HERSHEY_SIMPLEX,1,
+                            cv::Scalar(100,100));
+            imshow("answer",img_src);
+            waitKey(10);
+        }
+        else
+        {
+
+            cout<<"cannot recognise book ......"<<endl;
+            //destroyWindow ("answer");
+
+        }
+
+
+    }else
+    {
+        if(score_max>0.03&&(score_max-score_max_2th)/score_max>thre)
+        {
+            int index_ans = ret[0].Id%80;
+            cout<<"index_ans is :"<<index_ans<<endl;
+            char str_lx[60];
+            int  score =ret[0].Score*10000;
+            sprintf(str_lx,"score_%d",score);
+
+            Mat img_src = all_images[index_ans].clone();
+            cv::putText(img_src,str_lx,cv::Point(100,100),CV_FONT_HERSHEY_SIMPLEX,1,
+                            cv::Scalar(100,100));
+            imshow("answer",img_src);
+            waitKey(10);
+        }
+        else
+        {
+            cout<<"cannot recognise book ......"<<endl;
+            //destroyWindow ("answer");
+
+        }
+
+
+    }*/
 
     cout << endl;
     gettimeofday(&tpend_database,NULL);
@@ -308,7 +396,6 @@ void testDatabase(const  vector<cv::Mat > &features,DBoW3::Vocabulary &voc,vecto
     timeuse_database/=1000000; //将微妙的时间换算为妙
 
     cout<<"Used Time is : " <<timeuse_database<<endl;
-
 
     // we can save the database. The created file includes the vocabulary
     // and the entries added
@@ -361,8 +448,8 @@ int main(int argc,char **argv)
 
 
         // branching factor and depth levels
-        const int k = 15;
-        const int L = 5;
+        const int k = 18;
+        const int L = 6;
         const WeightingType weight = TF_IDF;
         const ScoringType score = L1_NORM;
         DBoW3::Vocabulary voc(k, L, weight, score);
@@ -381,11 +468,12 @@ int main(int argc,char **argv)
 
         while(1)
         {
-            testVocCreation(features,voc,all_images,mapx,mapy);
-            //testDatabase(features,voc,all_images,mapx,mapy);
+            //testVocCreation(features,voc,all_images,mapx,mapy);
+            testDatabase(features,voc,all_images,mapx,mapy);
         }
 
         cout<<"finish save voc"<<endl;
+        myfile.close();
 
         //testOurSelf(features);
         /*while(1)

@@ -139,29 +139,21 @@ Vocabulary::operator=
 void Vocabulary::create(
   const std::vector< cv::Mat > &training_features)
 {
-    std::cout<<"begin train "<<std::endl;
-    std::cout<<"begin train "<<(int)training_features.size()<<std::endl;
-
     std::vector<std::vector<cv::Mat> > vtf(training_features.size());
-    for(size_t i=0;i<training_features.size();i++){
-        std::cout<<"i is  "<<i<<std::endl;
+    for(size_t i=0;i<training_features.size();i++)
+    {
         vtf[i].resize(training_features[i].rows);
         for(int r=0;r<training_features[i].rows;r++)
-        {
-            //std::cout<<"r is  "<<r<<std::endl;
             vtf[i][r]=training_features[i].rowRange(r,r+1);
-        }
-
     }
     create(vtf);
-    std::cout<<"finish train "<<std::endl;
 
 }
 
 void Vocabulary::create(
   const std::vector<std::vector<cv::Mat> > &training_features)
 {
-  m_nodes.clear();
+  m_nodes.clear(); // vector <Node>
   m_words.clear();
 
   // expected_nodes = Sum_{i=0..L} ( k^i )
@@ -690,7 +682,6 @@ void Vocabulary::transform(
     } // if m_weighting == ...
 
     if(must) v.normalize(norm);
-
 }
 
 
@@ -849,7 +840,7 @@ void Vocabulary::transform(const cv::Mat &feature,
   const int nid_level = m_L - levelsup;
   if(nid_level <= 0 && nid != NULL) *nid = 0; // root
 
-  NodeId final_id = 0; // root
+  NodeId final_id = 0;  //root
   int current_level = 0;
 
   do
